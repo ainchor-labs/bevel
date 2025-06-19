@@ -1,3 +1,0 @@
-- name: Player
-  scripts:
-    - scripts/player_controller.py

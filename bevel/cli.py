@@ -2,36 +2,34 @@ import argparse
 import os
 import shutil
 import subprocess
+import yaml
 
-def init_project():
-    directories = [
-        "levels",
-        "scripts",
-        "assets",
-        "exports/web",
-        "exports/linux",
-        "exports/mac",
-        "exports/windows"
-    ]
+def init_project(project_name):
+    if not project_name:
+        print("Error: You must specify a project name (e.g. bevel init MyGame)")
+        return
 
-    for dir in directories:
-        os.makedirs(dir, exist_ok=True)
-        print(f"Created: {dir}")
+    target_path = os.path.join(os.getcwd(), project_name)
+    if os.path.exists(target_path):
+        print(f"Error: Directory {project_name} already exists.")
+        return
 
-    # Create a default level file
-    default_level = """\
-name: Test Level
-objects:
-  player:
-    position: [100, 100]
-    size: [50, 50]
-    color: GREEN
-    scripts: []
-"""
-    with open("levels/test_level.yaml", "w") as f:
-        f.write(default_level)
+    template_path = os.path.join(os.path.dirname(__file__), "../project_template")
+    shutil.copytree(template_path, target_path)
+    
+    # Create bevel_config.yaml
+    config_data = {
+        "title": "Bevel Game",
+        "window_width": 800,
+        "window_height": 600,
+        "default_level": "levels/test_level.yaml"
+    }
+    config_path = os.path.join(target_path, "bevel_config.yaml")
+    with open(config_path, "w") as f:
+        yaml.dump(config_data, f)
 
-    print("Project initialized with default level.")
+    print(f"Project '{project_name}' initialized at {target_path}")
+    print(f"Created bevel_config.yaml with default settings.")
 
 
 def build_project():

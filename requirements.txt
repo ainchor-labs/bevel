@@ -1,0 +1,3 @@
+raylib-py
+pyyaml
+watchdog

@@ -1,0 +1,1 @@
+def load_prefabs_from_yaml(path): pass

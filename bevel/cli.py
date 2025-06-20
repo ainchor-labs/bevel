@@ -3,45 +3,53 @@ import os
 import shutil
 import subprocess
 import yaml
+import importlib.resources as pkg_resources
+
+def copy_template(src, dst):
+    os.makedirs(dst, exist_ok=True)
+    for item in src.iterdir():
+        target = os.path.join(dst, item.name)
+        if item.is_dir():
+            copy_template(item, target)
+        else:
+            with pkg_resources.as_file(item) as file_path:
+                shutil.copy(file_path, target)
 
 def init_project(project_name):
-    if not project_name:
-        print("Error: You must specify a project name (e.g. bevel init MyGame)")
-        return
-
     target_path = os.path.join(os.getcwd(), project_name)
+
     if os.path.exists(target_path):
-        print(f"Error: Directory {project_name} already exists.")
         return
 
-    template_path = os.path.join(os.path.dirname(__file__), "../project_template")
-    shutil.copytree(template_path, target_path)
-    
-    # Create bevel_config.yaml
-    config_data = {
+    with pkg_resources.as_file(pkg_resources.files("bevel.project_template")) as template_path:
+        copy_template(template_path, target_path)
+
+    # Now create bevel_config.yaml
+    config = {
         "title": "Bevel Game",
+        "fps": 60,
+        "default_level": "levels/test_level.yaml",
         "window_width": 800,
-        "window_height": 600,
-        "default_level": "levels/test_level.yaml"
+        "window_height": 600
+        
     }
+
     config_path = os.path.join(target_path, "bevel_config.yaml")
     with open(config_path, "w") as f:
-        yaml.dump(config_data, f)
+        yaml.dump(config, f)
 
     print(f"Project '{project_name}' initialized at {target_path}")
-    print(f"Created bevel_config.yaml with default settings.")
+    print(f"Created {config_path}")
 
 
 def build_project():
     print("Building (running) project locally...")
 
     try:
-        # Launch run_game.py as a subprocess
-        subprocess.run(["python", ".bevel/run_game.py"], check=True)
-    except subprocess.CalledProcessError as e:
+        from .runner import run_game_main
+        run_game_main()
+    except Exception as e:
         print(f"Error running game: {e}")
-    except FileNotFoundError:
-        print("run_game.py not found. Did you create it?")
 
 def export_project(platform):
     supported = ["web", "windows", "linux", "mac"]
@@ -61,7 +69,8 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
 
     # init
-    subparsers.add_parser("init", help="Initialize a new project")
+    init_parser = subparsers.add_parser("init", help="Initialize a new project")
+    init_parser.add_argument("--name", required=True, help="Name of the new project")
 
     # build
     subparsers.add_parser("build", help="Build project for local testing")
@@ -73,7 +82,7 @@ def main():
     args = parser.parse_args()
 
     if args.command == "init":
-        init_project()
+        init_project(args.name)
     elif args.command == "build":
         build_project()
     elif args.command == "export":

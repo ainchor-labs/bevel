@@ -1,0 +1,2 @@
+include bevel/libraylib.so.5.5.0
+recursive-include bevel/project_template *

@@ -1,0 +1,9 @@
+name: Test Level
+description: A test level for Bevel project template
+objects:
+  player:
+    position: [200, 200]
+    size: [50, 50]
+    color: BLUE
+    scripts:
+      - scripts/player_movement.py

@@ -1,31 +1,17 @@
 import os
 import ctypes
+from cli_utils import resource_path
 
 import raylibpy as rl
 import time
-from .level_loader import load_level
-from .level_manager import LEVEL_MANAGER
-
-def ensure_raylib_so():
-    # Where raylibpy expects the .so
-    raylibpy_dir = os.path.dirname(raylibpy.__file__)
-    target_dir = os.path.join(raylibpy_dir, "bin", "64bit")
-    target_file = os.path.join(target_dir, "libraylib.so.5.5.0")
-
-    # Where your packaged .so lives (inside bevel package)
-    source_file = os.path.join(os.path.dirname(__file__), "libraylib.so.5.5.0")
-
-    if not os.path.exists(target_file):
-        print(f"Copying Raylib .so to: {target_file}")
-        os.makedirs(target_dir, exist_ok=True)
-        shutil.copy(source_file, target_file)
-    else:
-        print(f"Raylib .so already present at: {target_file}")
+from level_loader import load_level
+from level_manager import LEVEL_MANAGER
 
 # Call this at the top of run_game_main before any Raylib calls
 def run_game_main():
-    ensure_raylib_so()
-
+    lib_path = resource_path("libraylib.so.5.5.0")
+    lib_dir = os.path.dirname(lib_path)
+    os.environ["LD_LIBRARY_PATH"] = lib_dir + ":" + os.environ.get("LD_LIBRARY_PATH", "")
     rl.init_window(800, 600, b"Bevel Game")
     rl.set_target_fps(60)
 

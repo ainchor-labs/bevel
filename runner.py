@@ -4,11 +4,8 @@ from cli_utils import resource_path
 
 import raylibpy as rl
 import time
-from level_loader import load_level
 from level_manager import LEVEL_MANAGER
-from managers.scene_manager import SceneManager
-
-sm = SceneManager()
+from managers.scene_manager import global_scene_manager
 
 def load_game_config(file='config.yaml'):
     with open(file, "r") as config:
@@ -16,8 +13,6 @@ def load_game_config(file='config.yaml'):
 
 # Call this at the top of run_game_main before any Raylib calls
 def run_game_main():
-    if sm is None:
-        sm = SceneManager()
         
     game_config = load_game_config()
     lib_path = resource_path("libraylib.so.5.5.0")
@@ -30,9 +25,9 @@ def run_game_main():
     )
     rl.set_target_fps(game_config.get('target_fps', 60))
 
-    initial_scene = game_config.get("initial_scene", "test_level.yaml")
+    initial_scene = game_config.get("initial_scene", "scenes/test_level.yaml")
 
-    level_name = load_level(f"levels/{initial_scene}")
+    global_scene_manager.load_scene(initial_scene)
     rl.set_window_title(game_config.get("name", "Bevel").encode())
 
     # Your existing game loop logic...

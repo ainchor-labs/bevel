@@ -4,7 +4,7 @@ import os
 what_you_can_do = """
 Here is what you can do with your new bevel project!
 
-bevel build: build project to run locally
+bevel run: build project to run locally
 bevel export <platform>: Export to web (more platforms coming soon!)
 """
 

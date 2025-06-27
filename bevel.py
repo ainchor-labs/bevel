@@ -32,8 +32,8 @@ def init(name):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-@cli.command("build")
-def build():
+@cli.command("run")
+def run():
     from runner import run_game_main
     run_game_main()
 

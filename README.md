@@ -1,9 +1,9 @@
 # Bevel
 
 ## About
-Bevel is an open source cli-based tool that uses raylib as the main framework, with the goal of having a unity or godot-type feel in terms of development
+Bevel is an open source cli-based tool that uses raylib as the main framework, with the goal of having a unity or godot-type feel in terms of end-user development
 
-Currently only 2D
+Currently only 2D, but 3D is desired
 
 ## Install instructions
 
@@ -32,8 +32,8 @@ sudo chmod +x /usr/local/bin/bevel
 ## Future Desired additions
 
 - State Machine for animation
-- Ability to have 3d as well
 - LDtk integration for level design
 - Box2D for physics
+- Collisions (Physics-based and non-physics based)
 
 More features to come

@@ -1,0 +1,9 @@
+name: Level 2
+description: A test level for Bevel project template
+objects:
+  player:
+    position: [300, 300]
+    size: [50, 50]
+    color: BLUE
+    scripts:
+      - scripts/player_movement.py

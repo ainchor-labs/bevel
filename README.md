@@ -43,3 +43,6 @@ More features to come
 
 `bevel init <project_name>`: Create a project
 `bevel run`: Runs project locally
+
+## Demo
+See example folder for example project

@@ -35,6 +35,7 @@ sudo chmod +x /usr/local/bin/bevel
 - LDtk integration for level design
 - Box2D for physics
 - Collisions (Physics-based and non-physics based)
+- Shaders with GLSL
 
 More features to come
 

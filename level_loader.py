@@ -2,17 +2,7 @@ from util.file_parser import FileParser
 from entity import Entity
 from level_manager import LEVEL_MANAGER as lm
 import raylibpy as rl
-
-COLOR_MAP = {
-    'GREEN': rl.GREEN,
-    'BLUE': rl.BLUE,
-    'RED': rl.RED,
-    'YELLOW': rl.YELLOW,
-    'LIGHTGRAY': rl.LIGHTGRAY,
-    'DARKGRAY': rl.DARKGRAY,
-    'BLACK': rl.BLACK,
-    'WHITE': rl.WHITE,
-}
+from util.consts import COLOR_MAP
 
 def load_level(yaml_path):
     # Clear any existing level data

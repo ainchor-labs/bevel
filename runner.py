@@ -1,22 +1,39 @@
 import os
-import ctypes
+import yaml
 from cli_utils import resource_path
 
 import raylibpy as rl
 import time
 from level_loader import load_level
 from level_manager import LEVEL_MANAGER
+from managers.scene_manager import SceneManager
+
+sm = SceneManager()
+
+def load_game_config(file='config.yaml'):
+    with open(file, "r") as config:
+        return yaml.safe_load(config)
 
 # Call this at the top of run_game_main before any Raylib calls
 def run_game_main():
+    if sm is None:
+        sm = SceneManager()
+        
+    game_config = load_game_config()
     lib_path = resource_path("libraylib.so.5.5.0")
     lib_dir = os.path.dirname(lib_path)
     os.environ["LD_LIBRARY_PATH"] = lib_dir + ":" + os.environ.get("LD_LIBRARY_PATH", "")
-    rl.init_window(800, 600, b"Bevel Game")
-    rl.set_target_fps(60)
+    rl.init_window(
+        game_config.get("window_width", 800),
+        game_config.get("window_height", 600),
+        game_config.get("name", "Bevel")
+    )
+    rl.set_target_fps(game_config.get('target_fps', 60))
 
-    level_name = load_level("levels/test_level.yaml")
-    rl.set_window_title(level_name.encode())
+    initial_scene = game_config.get("initial_scene", "test_level.yaml")
+
+    level_name = load_level(f"levels/{initial_scene}")
+    rl.set_window_title(game_config.get("name", "Bevel").encode())
 
     # Your existing game loop logic...
     last_time = time.time()

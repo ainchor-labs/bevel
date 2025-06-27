@@ -1,0 +1,30 @@
+import raylibpy as rl
+
+COLOR_MAP = {
+    'LIGHTGRAY': rl.LIGHTGRAY,
+    'GRAY': rl.GRAY,
+    'DARKGRAY': rl.DARKGRAY,
+    'YELLOW': rl.YELLOW,
+    'GOLD': rl.GOLD,
+    'ORANGE': rl.ORANGE,
+    'PINK': rl.PINK,
+    'RED': rl.RED,
+    'MAROON': rl.MAROON,
+    'GREEN': rl.GREEN,
+    'LIME': rl.LIME,
+    'DARKGREEN': rl.DARKGREEN,
+    'SKYBLUE': rl.SKYBLUE,
+    'BLUE': rl.BLUE,
+    'DARKBLUE': rl.DARKBLUE,
+    'PURPLE': rl.PURPLE,
+    'VIOLET': rl.VIOLET,
+    'DARKPURPLE': rl.DARKPURPLE,
+    'BEIGE': rl.BEIGE,
+    'BROWN': rl.BROWN,
+    'DARKBROWN': rl.DARKBROWN,
+    'WHITE': rl.WHITE,
+    'BLACK': rl.BLACK,
+    'BLANK': rl.BLANK,
+    'MAGENTA': rl.MAGENTA,
+    'RAYWHITE': rl.RAYWHITE
+}

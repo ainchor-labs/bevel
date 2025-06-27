@@ -1,17 +1,6 @@
 import yaml
 import raylibpy as rl
-
-COLOR_MAP = {
-    'GREEN': rl.GREEN,
-    'BLUE': rl.BLUE,
-    'RED': rl.RED,
-    'YELLOW': rl.YELLOW,
-    'LIGHTGRAY': rl.LIGHTGRAY,
-    'DARKGRAY': rl.DARKGRAY,
-    'BLACK': rl.BLACK,
-    'WHITE': rl.WHITE,
-    # Add more as needed
-}
+from .consts import COLOR_MAP
 
 class FileParser:
     def __init__(self, filepath):

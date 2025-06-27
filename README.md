@@ -42,4 +42,4 @@ More features to come
 ## Working commands
 
 `bevel init <project_name>`: Create a project
-`beven run`: Runs project locally
+`bevel run`: Runs project locally

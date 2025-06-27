@@ -37,3 +37,8 @@ sudo chmod +x /usr/local/bin/bevel
 - Collisions (Physics-based and non-physics based)
 
 More features to come
+
+## Working commands
+
+`bevel init <project_name>`: Create a project
+`beven run`: Runs project locally

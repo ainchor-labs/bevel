@@ -13,7 +13,6 @@ class Entity:
         self.load_scripts(scripts)
         self.debug = False  # default; can set later
 
-
     def load_scripts(self, script_files):
         for file in script_files:
             spec = importlib.util.spec_from_file_location(file, file)
@@ -38,3 +37,17 @@ class Entity:
         for script in self.scripts:
             if hasattr(script, "physics_update"):
                 script.physics_update(dt)
+
+    def render(self):
+        """Render the entity as a rectangle."""
+        rl.draw_rectangle(int(self.position.x), int(self.position.y),
+                         int(self.size.x), int(self.size.y), self.color)
+        
+        # If debug is enabled, draw the entity name
+        if self.debug:
+            rl.draw_text(self.name.encode(), int(self.position.x), int(self.position.y) - 20, 10, rl.DARKGRAY)
+        
+        # Call render on scripts if they have it
+        for script in self.scripts:
+            if hasattr(script, "render"):
+                script.render()

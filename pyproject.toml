@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "bevel"
 version = "0.0.1"
-description = "A data-driven game development library using "
-dependencies = ["click"]
+description = "A data-driven game development library using Python, Raylib, and box2D"
+dependencies = ["click", "raylib-py", "pyyaml", "pyinstaller"]
 
 [project.scripts]
 bevel = "bevel:cli"

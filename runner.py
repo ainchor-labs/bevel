@@ -1,20 +1,18 @@
 import os
-import yaml
-from cli_utils import resource_path
-
-import raylibpy as rl
 import time
+import yaml
+import raylibpy as rl
+from cli_utils import resource_path
 from level_manager import LEVEL_MANAGER
 from managers.scene_manager import global_scene_manager
 
-def load_game_config(file='config.yaml'):
-    with open(file, "r") as config:
-        return yaml.safe_load(config)
+def load_game_config(config_file='config.yaml'):
+    """Load game configuration from a YAML file."""
+    with open(config_file, "r") as f:
+        return yaml.safe_load(f)
 
-# Call this at the top of run_game_main before any Raylib calls
-def run_game_main():
-        
-    game_config = load_game_config()
+def setup_raylib(game_config):
+    """Initialize Raylib window and set environment variables."""
     lib_path = resource_path("libraylib.so.5.5.0")
     lib_dir = os.path.dirname(lib_path)
     os.environ["LD_LIBRARY_PATH"] = lib_dir + ":" + os.environ.get("LD_LIBRARY_PATH", "")
@@ -23,39 +21,44 @@ def run_game_main():
         game_config.get("window_height", 600),
         game_config.get("name", "Bevel")
     )
-    rl.set_target_fps(game_config.get('target_fps', 60))
-
-    initial_scene = game_config.get("initial_scene", "scenes/test_level.yaml")
-
-    global_scene_manager.load_scene(initial_scene)
+    rl.set_target_fps(game_config.get("target_fps", 60))
     rl.set_window_title(game_config.get("name", "Bevel").encode())
 
-    # Your existing game loop logic...
+def run_game_main():
+    # Load configuration
+    game_config = load_game_config()
+    setup_raylib(game_config)
+
+    # Load initial scene
+    initial_scene = game_config.get("initial_scene", "scenes/test_level.yaml")
+    global_scene_manager.load_scene(initial_scene)
+
+    # Timing setup
     last_time = time.time()
     physics_accumulator = 0.0
     physics_dt = 1.0 / 50.0
 
+    # Main game loop
     while not rl.window_should_close():
         now = time.time()
         dt = now - last_time
         last_time = now
 
+        # Update all entities
         for obj in LEVEL_MANAGER.objects.values():
             obj.update(dt)
 
+        # Fixed-step physics updates
         physics_accumulator += dt
         while physics_accumulator >= physics_dt:
             for obj in LEVEL_MANAGER.objects.values():
                 obj.physics_update(physics_dt)
             physics_accumulator -= physics_dt
 
+        # Render
         rl.begin_drawing()
         rl.clear_background(rl.RAYWHITE)
-        for obj in LEVEL_MANAGER.objects.values():
-            rl.draw_rectangle(int(obj.position.x), int(obj.position.y),
-                              int(obj.size.x), int(obj.size.y), obj.color)
-            if obj.debug:
-                rl.draw_text(obj.name.encode(), int(obj.position.x), int(obj.position.y) - 20, 10, rl.DARKGRAY)
+        LEVEL_MANAGER.render()
         rl.end_drawing()
 
     rl.close_window()

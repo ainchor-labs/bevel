@@ -21,4 +21,16 @@ class LevelManager:
         """Remove all objects from the manager."""
         self.objects.clear()
 
+    def update(self):
+        """Update all objects in the level."""
+        for obj in self.objects.values():  # Changed from self.objects to self.objects.values()
+            if hasattr(obj, 'update'):
+                obj.update()
+
+    def render(self):
+        """Render all objects in the level."""
+        for obj in self.objects.values():  # Changed from self.objects to self.objects.values()
+            if hasattr(obj, 'render'):
+                obj.render()
+
 LEVEL_MANAGER = LevelManager()

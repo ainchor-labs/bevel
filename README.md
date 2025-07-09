@@ -31,12 +31,14 @@ sudo chmod +x /usr/local/bin/bevel
 
 ## Future Desired additions
 
-- State Machine for animation
-- LDtk integration for level design
+- Integration with the following Level Editors
+    - Tiled
+    - Level Design Toolkit (LDtk)
+    - Ogmo
 - Box2D for physics
-- Collisions (Physics-based and non-physics based)
+- Camera Controls
+- State Machine for animation
 - Shaders with GLSL
-
 More features to come
 
 ## Working commands

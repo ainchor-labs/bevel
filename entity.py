@@ -1,6 +1,7 @@
 import importlib.util
 import raylibpy as rl
 from util.script_wrapper import ScriptWrapper
+from rendering.entity_renderer import EntityRenderer
 
 
 class Entity:
@@ -10,19 +11,25 @@ class Entity:
         self.size = rl.Vector2(size[0], size[1])
         self.color = color
         self.scripts = []
-        self.load_scripts(scripts)
-        self.debug = False  # default; can set later
+        self.debug = False
         
-        # Sprite-related properties
+        # Entity type and rendering properties
         self.entity_type = entity_type
-        self.sprite_path = sprite_path
-        self.texture = None
-        
-        # Scaling properties
         self.x_scale = x_scale
         self.y_scale = y_scale
         
-        # Load sprite if this is a sprite entity
+        # Sprite-related properties
+        self.sprite_path = sprite_path
+        self.texture = None
+        
+        # Shape-related properties
+        self.shape = 'rectangle'  # Default shape
+        
+        # Custom properties from YAML
+        self.tiled_properties = {}
+        
+        # Load scripts and sprite if applicable
+        self.load_scripts(scripts)
         if self.entity_type == 'sprite' and self.sprite_path:
             self.load_sprite()
 
@@ -52,42 +59,8 @@ class Entity:
                 script.physics_update(dt)
 
     def render(self):
-        """Render the entity based on its type (shape or sprite)."""
-        if self.entity_type == 'sprite' and self.texture:
-            # Render sprite with scaling
-            scaled_width = self.size.x * self.x_scale
-            scaled_height = self.size.y * self.y_scale
-            
-            dest_rect = rl.Rectangle(
-                self.position.x, self.position.y,
-                scaled_width, scaled_height
-            )
-            source_rect = rl.Rectangle(
-                0, 0,
-                self.texture.width, self.texture.height
-            )
-            rl.draw_texture_pro(self.texture, source_rect, dest_rect, rl.Vector2(0, 0), 0, self.color)
-        else:
-            # Render shape with scaling (existing shape rendering code)
-            shape = getattr(self, 'shape', 'rectangle')
-            
-            scaled_width = int(self.size.x * self.x_scale)
-            scaled_height = int(self.size.y * self.y_scale)
-            
-            if shape == 'circle':
-                # For circles, use scaled width as diameter, calculate radius
-                radius = int(scaled_width / 2)
-                center_x = int(self.position.x + radius)
-                center_y = int(self.position.y + radius)
-                rl.draw_circle(center_x, center_y, radius, self.color)
-            else:
-                # Default to rectangle with scaling
-                rl.draw_rectangle(int(self.position.x), int(self.position.y),
-                                 scaled_width, scaled_height, self.color)
-        
-        # If debug is enabled, draw the entity name
-        if self.debug:
-            rl.draw_text(self.name.encode(), int(self.position.x), int(self.position.y) - 20, 10, rl.DARKGRAY)
+        """Render the entity using the EntityRenderer."""
+        EntityRenderer.render_entity(self)
         
         # Call render on scripts if they have it
         for script in self.scripts:
@@ -96,14 +69,22 @@ class Entity:
 
     def load_sprite(self):
         """Load the sprite texture from file."""
+        if not self.sprite_path:
+            print(f"No sprite path provided for entity {self.name}")
+            return
+            
         try:
             self.texture = rl.load_texture(self.sprite_path.encode())
+            
             # If size wasn't specified, use the texture's natural size
-            if self.size.x == 0 or self.size.y == 0:
-                self.size = rl.Vector2(self.texture.width, self.texture.height)
-            print(f"Loaded sprite: {self.sprite_path} (size: {self.texture.width}x{self.texture.height})")
+            if self.size.x == 0:
+                self.size.x = self.texture.width
+            if self.size.y == 0:
+                self.size.y = self.texture.height
+                
+            print(f"Loaded sprite: {self.sprite_path} (texture: {self.texture.width}x{self.texture.height}, entity size: {self.size.x}x{self.size.y})")
         except Exception as e:
-            print(f"Failed to load sprite {self.sprite_path}: {e}")
+            print(f"Failed to load sprite {self.sprite_path} for entity {self.name}: {e}")
             self.texture = None
 
     def cleanup(self):

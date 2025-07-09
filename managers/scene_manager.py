@@ -1,10 +1,6 @@
 from level_manager import LEVEL_MANAGER
-from util.consts import COLOR_MAP
-import raylibpy as rl
-from entity import Entity
+from factories.entity_factory import EntityFactory
 import yaml
-# import os
-# from managers.ldtk_loader import load_ldtk_level
 from managers.scene_builders.scene_loader import CompositeSceneLoader, LDtkSceneLoader
 
 class SceneManager:
@@ -46,65 +42,20 @@ class SceneManager:
             self._create_entity(obj_name, obj_data)
 
     def _create_entity(self, obj_name, obj_data):
-        """Create an entity from YAML object data (dict)."""
-        entity_type = obj_data.get('type', 'shape')
+        """Create an entity from YAML object data using the EntityFactory."""
+        print(f"Creating entity '{obj_name}' from YAML data")
         
-        # Handle different entity types
-        if entity_type == 'sprite':
-            # For sprites, position and size are required, but size can be auto-detected
-            pos = [obj_data.get('x', 0), obj_data.get('y', 0)]
-            size = [obj_data.get('width', 0), obj_data.get('height', 0)]  # 0 means auto-detect from sprite
-            sprite_path = obj_data.get('path', '')
-            color = rl.WHITE  # Sprites use white tint by default
-            
-            print(f"Creating sprite entity '{obj_name}' at pos={pos}, sprite_path={sprite_path}")
-            
-        else:
-            # For shapes, use existing logic
-            pos = [obj_data.get('x', 0), obj_data.get('y', 0)]
-            size = [obj_data.get('width', 50), obj_data.get('height', 50)]
-            sprite_path = None
-            
-            color_name = obj_data.get('color', 'BLACK')
-            if isinstance(color_name, str):
-                color = COLOR_MAP.get(color_name.upper(), rl.BLACK)
-            else:
-                color = color_name
-                
-            print(f"Creating shape entity '{obj_name}' at pos={pos}, size={size}")
-
-        scripts = obj_data.get('scripts', [])
-        debug = obj_data.get('debug', False)
+        # Use the factory to create the entity
+        entity = EntityFactory.create_entity(obj_name, obj_data)
         
-        # Get scaling parameters (default to 1.0 if not specified)
-        x_scale = obj_data.get('x_scale', 1.0)
-        y_scale = obj_data.get('y_scale', 1.0)
-
-        print(f"Entity '{obj_name}' color: {color}")
-        print(f"Entity '{obj_name}' scale: x={x_scale}, y={y_scale}")
-
-        entity = Entity(obj_name, pos, size, color, scripts, entity_type, sprite_path, x_scale, y_scale)
-        entity.debug = debug
-        
-        # Store shape information for rendering (for shape entities)
-        if entity_type == 'shape':
-            entity.shape_type = obj_data.get('type', 'shape')
-            entity.shape = obj_data.get('shape', 'rectangle')
-
-        if 'properties' in obj_data:
-            entity.tiled_properties = dict(obj_data['properties'])
-
+        # Start the entity and add to level manager
         entity.start()
         LEVEL_MANAGER.add_object(entity)
-
+        
         print(f"Entity '{obj_name}' added to LEVEL_MANAGER. Total objects: {len(LEVEL_MANAGER.objects)}")
-        print(f"Entity position after creation: {entity.position}")
-        print(f"Entity size after creation: {entity.size}")
-        print(f"Entity color after creation: {entity.color}")
-        if entity_type == 'shape':
-            print(f"Entity shape: {entity.shape_type}/{entity.shape}")
-        else:
-            print(f"Entity sprite path: {sprite_path}")
+        print(f"Entity details - pos: {entity.position}, size: {entity.size}, type: {entity.entity_type}")
+        
+        return entity
 
     def get_scene_name(self):
         if self.curr_scene_config:

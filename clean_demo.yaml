@@ -1,0 +1,99 @@
+name: "Clean Architecture Demo"
+description: "Demonstrates the cleaned up entity system with sprites and shapes"
+
+scene:
+  type: composite
+  objects:
+    # Player with sprite
+    player:
+      type: sprite
+      path: assets/test_sprite.png
+      x: 100
+      y: 400
+      width: 32
+      height: 32
+      x_scale: 2.0
+      y_scale: 2.0
+      debug: true
+      scripts:
+        - scripts/player_movement.py
+      properties:
+        health: 100
+        speed: 300
+
+    # Ground platform
+    ground:
+      type: shape
+      shape: rectangle
+      x: 0
+      y: 500
+      width: 800
+      height: 100
+      color: BROWN
+      debug: false
+      properties:
+        solid: true
+
+    # Floating platforms
+    platform1:
+      type: shape
+      shape: rectangle
+      x: 200
+      y: 350
+      width: 100
+      height: 20
+      color: DARKGREEN
+      debug: false
+
+    platform2:
+      type: shape
+      shape: rectangle
+      x: 400
+      y: 250
+      width: 100
+      height: 20
+      color: DARKGREEN
+      x_scale: 1.5
+      debug: false
+
+    # Collectibles
+    coin1:
+      type: shape
+      shape: circle
+      x: 250
+      y: 320
+      width: 20
+      height: 20
+      color: GOLD
+      debug: false
+      properties:
+        type: coin
+        value: 10
+
+    coin2:
+      type: shape
+      shape: circle
+      x: 450
+      y: 220
+      width: 20
+      height: 20
+      color: GOLD
+      y_scale: 1.5
+      debug: false
+      properties:
+        type: coin
+        value: 10
+
+    # Enemy
+    enemy:
+      type: shape
+      shape: rectangle
+      x: 300
+      y: 460
+      width: 30
+      height: 40
+      color: RED
+      debug: true
+      properties:
+        type: enemy
+        damage: 25

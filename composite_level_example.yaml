@@ -1,0 +1,263 @@
+name: "Composite Adventure Level"
+description: "A comprehensive composite level showcasing various entities, platforms, and interactive objects"
+
+scene:
+  type: composite
+  objects:
+    player:
+      type: shape
+      shape: rectangle
+      x: 100
+      y: 400
+      width: 40
+      height: 60
+      color: BLUE
+      debug: true
+      scripts:
+        - scripts/player_movement.py
+      properties:
+        health: 100
+        speed: 300
+        jump_power: 500
+
+    ground_platform:
+      type: shape
+      shape: rectangle
+      x: 0
+      y: 450
+      width: 800
+      height: 50
+      color: BROWN
+      debug: false
+      properties:
+        solid: true
+        platform_type: "ground"
+
+    floating_platform_1:
+      type: shape
+      shape: rectangle
+      x: 200
+      y: 300
+      width: 120
+      height: 20
+      color: DARKGREEN
+      debug: false
+      properties:
+        solid: true
+        platform_type: "floating"
+
+    floating_platform_2:
+      type: shape
+      shape: rectangle
+      x: 400
+      y: 200
+      width: 120
+      height: 20
+      color: DARKGREEN
+      debug: false
+      properties:
+        solid: true
+        platform_type: "floating"
+
+    enemy_1:
+      type: shape
+      shape: rectangle
+      x: 300
+      y: 380
+      width: 30
+      height: 30
+      color: RED
+      debug: true
+      properties:
+        enemy_type: "patrol"
+        damage: 25
+        patrol_distance: 100
+        speed: 50
+
+    enemy_2:
+      type: shape
+      shape: rectangle
+      x: 500
+      y: 150
+      width: 35
+      height: 35
+      color: MAROON
+      debug: true
+      properties:
+        enemy_type: "guard"
+        damage: 40
+        vision_range: 80
+
+    collectible_coin_1:
+      type: shape
+      shape: circle
+      x: 250
+      y: 250
+      width: 20
+      height: 20
+      color: GOLD
+      debug: false
+      properties:
+        collectible_type: "coin"
+        value: 10
+
+    collectible_coin_2:
+      type: shape
+      shape: circle
+      x: 450
+      y: 150
+      width: 20
+      height: 20
+      color: GOLD
+      debug: false
+      properties:
+        collectible_type: "coin"
+        value: 10
+
+    collectible_gem:
+      type: shape
+      shape: rectangle
+      x: 600
+      y: 100
+      width: 25
+      height: 25
+      color: PURPLE
+      debug: false
+      properties:
+        collectible_type: "gem"
+        value: 50
+
+    wall_left:
+      type: shape
+      shape: rectangle
+      x: -10
+      y: 0
+      width: 10
+      height: 600
+      color: GRAY
+      debug: false
+      properties:
+        solid: true
+        wall_type: "boundary"
+
+    wall_right:
+      type: shape
+      shape: rectangle
+      x: 800
+      y: 0
+      width: 10
+      height: 600
+      color: GRAY
+      debug: false
+      properties:
+        solid: true
+        wall_type: "boundary"
+
+    ceiling:
+      type: shape
+      shape: rectangle
+      x: 0
+      y: -10
+      width: 800
+      height: 10
+      color: GRAY
+      debug: false
+      properties:
+        solid: true
+        wall_type: "boundary"
+
+    moving_platform:
+      type: shape
+      shape: rectangle
+      x: 600
+      y: 350
+      width: 100
+      height: 20
+      color: DARKBLUE
+      debug: true
+      properties:
+        solid: true
+        platform_type: "moving"
+        move_distance: 150
+        move_speed: 60
+        move_direction: "horizontal"
+
+    spike_trap:
+      type: shape
+      shape: rectangle
+      x: 350
+      y: 430
+      width: 60
+      height: 20
+      color: ORANGE
+      debug: true
+      properties:
+        trap_type: "spikes"
+        damage: 50
+        deadly: true
+
+    checkpoint:
+      type: shape
+      shape: rectangle
+      x: 550
+      y: 380
+      width: 30
+      height: 40
+      color: LIME
+      debug: true
+      properties:
+        checkpoint_id: "mid_level"
+        respawn_point: true
+
+    goal_flag:
+      type: shape
+      shape: rectangle
+      x: 720
+      y: 350
+      width: 30
+      height: 60
+      color: YELLOW
+      debug: true
+      properties:
+        goal_type: "level_end"
+        next_level: "level_2.yaml"
+
+    background_decoration_1:
+      type: shape
+      shape: rectangle
+      x: 150
+      y: 100
+      width: 40
+      height: 80
+      color: DARKGREEN
+      debug: false
+      properties:
+        decoration_type: "tree"
+        background_layer: true
+
+    background_decoration_2:
+      type: shape
+      shape: rectangle
+      x: 650
+      y: 120
+      width: 35
+      height: 70
+      color: DARKGREEN
+      debug: false
+      properties:
+        decoration_type: "tree"
+        background_layer: true
+
+    interactive_lever:
+      type: shape
+      shape: rectangle
+      x: 500
+      y: 400
+      width: 15
+      height: 30
+      color: MAGENTA
+      debug: true
+      properties:
+        interactive_type: "lever"
+        target_object: "moving_platform"
+        state: "off"

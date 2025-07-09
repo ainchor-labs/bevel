@@ -39,9 +39,20 @@ class Entity:
                 script.physics_update(dt)
 
     def render(self):
-        """Render the entity as a rectangle."""
-        rl.draw_rectangle(int(self.position.x), int(self.position.y),
-                         int(self.size.x), int(self.size.y), self.color)
+        """Render the entity based on its shape type."""
+        # Default to rectangle if no shape is specified
+        shape = getattr(self, 'shape', 'rectangle')
+        
+        if shape == 'circle':
+            # For circles, use width as diameter, calculate radius
+            radius = int(self.size.x / 2)
+            center_x = int(self.position.x + radius)
+            center_y = int(self.position.y + radius)
+            rl.draw_circle(center_x, center_y, radius, self.color)
+        else:
+            # Default to rectangle
+            rl.draw_rectangle(int(self.position.x), int(self.position.y),
+                             int(self.size.x), int(self.size.y), self.color)
         
         # If debug is enabled, draw the entity name
         if self.debug:

@@ -2,4 +2,4 @@ name: "Example"
 window_width: 800
 window_height: 600
 target_fps: 60
-initial_scene: scenes/level_1.yaml
+initial_scene: ../composite_level_example.yaml

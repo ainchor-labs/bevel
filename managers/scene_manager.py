@@ -65,6 +65,10 @@ class SceneManager:
 
         entity = Entity(obj_name, pos, size, color, scripts)
         entity.debug = debug
+        
+        # Store shape information for rendering
+        entity.shape_type = obj_data.get('type', 'shape')
+        entity.shape = obj_data.get('shape', 'rectangle')
 
         if 'properties' in obj_data:
             entity.tiled_properties = dict(obj_data['properties'])
@@ -76,6 +80,7 @@ class SceneManager:
         print(f"Entity position after creation: {entity.position}")
         print(f"Entity size after creation: {entity.size}")
         print(f"Entity color after creation: {entity.color}")
+        print(f"Entity shape: {entity.shape_type}/{entity.shape}")
 
     def get_scene_name(self):
         if self.curr_scene_config:

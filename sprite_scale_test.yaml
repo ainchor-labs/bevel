@@ -1,0 +1,96 @@
+name: "Sprite and Shape Test Level"
+description: "A test level showcasing both sprites and shapes with scaling"
+
+scene:
+  type: composite
+  objects:
+    player:
+      type: sprite
+      path: assets/test_sprite.png
+      x: 100
+      y: 400
+      width: 64
+      height: 64
+      x_scale: 1.5
+      y_scale: 1.2
+      debug: true
+      scripts:
+        - scripts/player_movement.py
+      properties:
+        health: 100
+        speed: 300
+        jump_power: 500
+
+    scaled_enemy:
+      type: sprite
+      path: assets/enemy_sprite.png
+      x: 300
+      y: 350
+      width: 32
+      height: 32
+      x_scale: 2.0
+      y_scale: 0.8
+      debug: true
+      properties:
+        enemy_type: "patrol"
+        damage: 25
+
+    ground_platform:
+      type: shape
+      shape: rectangle
+      x: 0
+      y: 450
+      width: 800
+      height: 50
+      color: BROWN
+      x_scale: 1.0
+      y_scale: 1.0
+      debug: false
+      properties:
+        solid: true
+        platform_type: "ground"
+
+    scaled_platform:
+      type: shape
+      shape: rectangle
+      x: 200
+      y: 300
+      width: 60
+      height: 10
+      color: DARKGREEN
+      x_scale: 2.0
+      y_scale: 2.0
+      debug: true
+      properties:
+        solid: true
+        platform_type: "floating"
+
+    wide_coin:
+      type: shape
+      shape: circle
+      x: 450
+      y: 250
+      width: 20
+      height: 20
+      color: GOLD
+      x_scale: 1.5
+      y_scale: 1.0
+      debug: false
+      properties:
+        collectible_type: "coin"
+        value: 10
+
+    tall_gem:
+      type: shape
+      shape: rectangle
+      x: 600
+      y: 100
+      width: 25
+      height: 25
+      color: PURPLE
+      x_scale: 0.8
+      y_scale: 2.5
+      debug: false
+      properties:
+        collectible_type: "gem"
+        value: 50

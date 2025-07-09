@@ -47,28 +47,49 @@ class SceneManager:
 
     def _create_entity(self, obj_name, obj_data):
         """Create an entity from YAML object data (dict)."""
-        pos = [obj_data.get('x', 0), obj_data.get('y', 0)]
-        size = [obj_data.get('width', 50), obj_data.get('height', 50)]
+        entity_type = obj_data.get('type', 'shape')
+        
+        # Handle different entity types
+        if entity_type == 'sprite':
+            # For sprites, position and size are required, but size can be auto-detected
+            pos = [obj_data.get('x', 0), obj_data.get('y', 0)]
+            size = [obj_data.get('width', 0), obj_data.get('height', 0)]  # 0 means auto-detect from sprite
+            sprite_path = obj_data.get('path', '')
+            color = rl.WHITE  # Sprites use white tint by default
+            
+            print(f"Creating sprite entity '{obj_name}' at pos={pos}, sprite_path={sprite_path}")
+            
+        else:
+            # For shapes, use existing logic
+            pos = [obj_data.get('x', 0), obj_data.get('y', 0)]
+            size = [obj_data.get('width', 50), obj_data.get('height', 50)]
+            sprite_path = None
+            
+            color_name = obj_data.get('color', 'BLACK')
+            if isinstance(color_name, str):
+                color = COLOR_MAP.get(color_name.upper(), rl.BLACK)
+            else:
+                color = color_name
+                
+            print(f"Creating shape entity '{obj_name}' at pos={pos}, size={size}")
 
-        print(f"Creating entity '{obj_name}' at pos={pos}, size={size}")
-
-        color_name = obj_data.get('color', 'BLACK')
         scripts = obj_data.get('scripts', [])
         debug = obj_data.get('debug', False)
+        
+        # Get scaling parameters (default to 1.0 if not specified)
+        x_scale = obj_data.get('x_scale', 1.0)
+        y_scale = obj_data.get('y_scale', 1.0)
 
-        if isinstance(color_name, str):
-            color = COLOR_MAP.get(color_name.upper(), rl.BLACK)
-        else:
-            color = color_name
+        print(f"Entity '{obj_name}' color: {color}")
+        print(f"Entity '{obj_name}' scale: x={x_scale}, y={y_scale}")
 
-        print(f"Entity '{obj_name}' color: {color_name} -> {color}")
-
-        entity = Entity(obj_name, pos, size, color, scripts)
+        entity = Entity(obj_name, pos, size, color, scripts, entity_type, sprite_path, x_scale, y_scale)
         entity.debug = debug
         
-        # Store shape information for rendering
-        entity.shape_type = obj_data.get('type', 'shape')
-        entity.shape = obj_data.get('shape', 'rectangle')
+        # Store shape information for rendering (for shape entities)
+        if entity_type == 'shape':
+            entity.shape_type = obj_data.get('type', 'shape')
+            entity.shape = obj_data.get('shape', 'rectangle')
 
         if 'properties' in obj_data:
             entity.tiled_properties = dict(obj_data['properties'])
@@ -80,7 +101,10 @@ class SceneManager:
         print(f"Entity position after creation: {entity.position}")
         print(f"Entity size after creation: {entity.size}")
         print(f"Entity color after creation: {entity.color}")
-        print(f"Entity shape: {entity.shape_type}/{entity.shape}")
+        if entity_type == 'shape':
+            print(f"Entity shape: {entity.shape_type}/{entity.shape}")
+        else:
+            print(f"Entity sprite path: {sprite_path}")
 
     def get_scene_name(self):
         if self.curr_scene_config:

@@ -19,6 +19,10 @@ class LevelManager:
     
     def clear(self):
         """Remove all objects from the manager."""
+        # Clean up entity resources before clearing
+        for entity in self.objects.values():
+            if hasattr(entity, 'cleanup'):
+                entity.cleanup()
         self.objects.clear()
 
     def update(self):

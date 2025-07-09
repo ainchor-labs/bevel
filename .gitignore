@@ -1,7 +1,8 @@
 bevel/venv
 __pycache__
 clean_build.sh
-build
+build/*
+dist/*
 *.egg-info
 *.egg
 *.log

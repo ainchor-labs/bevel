@@ -1,0 +1,156 @@
+scene_config:
+  name: "3D Demo Main Scene"
+  type: "3D"
+  background_color: [40, 45, 60, 255]
+
+# Signal definitions
+signals:
+  - name: "player_damaged"
+    parameters: ["damage", "source"]
+  - name: "player_died"
+    parameters: []
+
+root:
+  type: Node3D
+  name: "Root"
+  position: [0, 0, 0]
+  children:
+    # Main camera following player
+    - type: Camera3D
+      name: "MainCamera"
+      position: [0, 10, 20]
+      rotation_degrees: [0, 0, -30]
+      projection: "perspective"
+      fov: 70
+      near: 0.1
+      far: 1000
+      current: true
+      scripts:
+        - path: "scripts/camera_follow.py"
+          priority: 0
+
+    # Directional light (sun)
+    - type: Light3D
+      name: "Sun"
+      light_type: "directional"
+      position: [10, 20, 10]
+      rotation_degrees: [-45, 45, 0]
+      color: [255, 250, 240, 255]
+      intensity: 1.0
+
+    # Player character
+    - type: Node3D
+      name: "Player"
+      position: [0, 2, 0]
+      layer: "world"
+      scripts:
+        - path: "scripts/player_movement.py"
+          priority: 0
+        - path: "scripts/player_health.py"
+          priority: 10
+      children:
+        - type: MeshInstance
+          name: "PlayerMesh"
+          mesh: "capsule"
+          position: [0, 0, 0]
+        - type: CollisionShape3D
+          name: "PlayerCollider"
+          shape: "capsule"
+          size: [0.5, 1.0, 0.5]
+          physics:
+            body_type: "kinematic"
+            mass: 70.0
+
+    # Ground plane
+    - type: Node3D
+      name: "Ground"
+      position: [0, 0, 0]
+      children:
+        - type: MeshInstance
+          name: "GroundMesh"
+          mesh: "box"
+          scale: [20, 0.1, 20]
+          position: [0, -0.05, 0]
+
+        - type: CollisionShape3D
+          name: "GroundCollider"
+          shape: "box"
+          size: [20, 0.1, 20]
+          position: [0, -0.05, 0]
+          physics:
+            body_type: "static"
+
+    # Some obstacles
+    - type: Node3D
+      name: "Obstacles"
+      children:
+        - type: Node3D
+          name: "Box1"
+          position: [3, 0.5, -2]
+          children:
+            - type: MeshInstance
+              name: "BoxMesh"
+              mesh: "box"
+
+            - type: CollisionShape3D
+              name: "BoxCollider"
+              shape: "box"
+              size: [1, 1, 1]
+              physics:
+                body_type: "dynamic"
+                mass: 10.0
+
+        - type: Node3D
+          name: "Box2"
+          position: [-2, 0.5, 3]
+          children:
+            - type: MeshInstance
+              name: "BoxMesh"
+              mesh: "box"
+
+            - type: CollisionShape3D
+              name: "BoxCollider"
+              shape: "box"
+              size: [1, 1, 1]
+              physics:
+                body_type: "dynamic"
+                mass: 10.0
+
+        - type: Node3D
+          name: "Sphere"
+          position: [0, 2, -5]
+          children:
+            - type: MeshInstance
+              name: "SphereMesh"
+              mesh: "sphere"
+
+            - type: CollisionShape3D
+              name: "SphereCollider"
+              shape: "sphere"
+              size: [1, 1, 1]
+              physics:
+                body_type: "dynamic"
+                mass: 5.0
+
+    # UI Layer (camera-independent)
+    - type: Node2D
+      name: "UI"
+      layer: "ui"
+      children:
+        - type: Node2D
+          name: "HealthBar"
+          position: [20, 20]
+          scripts:
+            - "scripts/health_ui.py"
+
+# Signal connections
+connections:
+  - source: "Player"
+    signal: "player_damaged"
+    target: "UI/HealthBar"
+    method: "on_player_damaged"
+
+  - source: "Player"
+    signal: "player_died"
+    target: "Root"
+    method: "on_player_died"

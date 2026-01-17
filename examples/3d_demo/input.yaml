@@ -1,0 +1,26 @@
+# Input configuration with contexts
+
+contexts:
+  gameplay:
+    priority: 10
+    enabled: true
+    actions:
+      move_forward: [KEY_W, KEY_UP]
+      move_backward: [KEY_S, KEY_DOWN]
+      move_left: [KEY_A, KEY_LEFT]
+      move_right: [KEY_D, KEY_RIGHT]
+      jump: [KEY_SPACE]
+      sprint: [KEY_LEFT_SHIFT]
+      interact: [KEY_E]
+      pause:
+        keys: [KEY_ESCAPE]
+
+  menu:
+    priority: 100
+    enabled: false
+    blocks: ["gameplay"]
+    actions:
+      confirm: [KEY_ENTER, KEY_SPACE]
+      cancel: [KEY_ESCAPE]
+      menu_up: [KEY_W, KEY_UP]
+      menu_down: [KEY_S, KEY_DOWN]

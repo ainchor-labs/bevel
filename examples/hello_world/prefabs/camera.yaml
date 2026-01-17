@@ -1,0 +1,9 @@
+camera:
+  name: "MainCamera"
+  type: Camera2D
+  properties:
+    current: true
+    smoothing_enabled: true
+    smoothing_speed: 0.05
+  scripts:
+    - "scripts/camera_follow.py"

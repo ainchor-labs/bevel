@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Lightweight shim to run the `bevel` CLI from the source tree without installing
+# Usage: make executable and symlink to a directory on your PATH (e.g. ~/.local/bin)
+
+set -euo pipefail
+
+# Resolve repository root (assumes this script lives in <repo>/bin/bevel)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Prepend the repo root to PYTHONPATH so `python -m bevel.cli.main` finds the package
+export PYTHONPATH="$REPO_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+
+exec python3 -m bevel.cli.main "$@"

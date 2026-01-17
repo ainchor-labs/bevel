@@ -1,0 +1,18 @@
+# Resource definitions for 3D demo
+# Add textures and models here
+
+textures:
+  # checker: "assets/textures/checker.png"
+
+sounds:
+  # footstep: "assets/sounds/footstep.wav"
+  # damage: "assets/sounds/damage.wav"
+
+# Resource groups for streaming
+groups:
+  core:
+    # Core resources always loaded
+    - checker
+
+preload:
+  - core

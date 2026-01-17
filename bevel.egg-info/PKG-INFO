@@ -1,0 +1,89 @@
+Metadata-Version: 2.4
+Name: bevel
+Version: 0.2.0
+Summary: A CLI-based 2D/3D game engine
+Author: Bevel Team
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/bevel-engine/bevel
+Project-URL: Documentation, https://bevel-engine.github.io/bevel
+Project-URL: Repository, https://github.com/bevel-engine/bevel
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Games/Entertainment
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: raylib>=5.0
+Requires-Dist: box2d>=2.3
+Requires-Dist: click>=8.0
+Requires-Dist: pybind11>=2.10
+Requires-Dist: watchdog>=3.0
+Requires-Dist: pytest>=7.0
+Requires-Dist: pytest-cov>=4.0
+Requires-Dist: black>=23.0
+Requires-Dist: mypy>=1.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: black>=23.0; extra == "dev"
+Requires-Dist: mypy>=1.0; extra == "dev"
+Provides-Extra: jolt
+Requires-Dist: pybind11>=2.10; extra == "jolt"
+Provides-Extra: hotreload
+Requires-Dist: watchdog>=3.0; extra == "hotreload"
+
+# Bevel Engine
+
+A CLI-based 2D game engine built with Python.
+
+## Installation
+
+```bash
+pip install -e .
+```
+
+## Quick Start
+
+Create a new project:
+
+```bash
+bevel new my_game
+cd my_game
+```
+
+Run your game:
+
+```bash
+bevel run
+```
+
+## Features
+
+- YAML-based scene configuration
+- Hierarchical node system
+- Python scripting with lifecycle methods
+- Box2D physics integration (2D) and Jolt physics (3D)
+- raylib rendering
+- **Hot reload** - Edit code and see changes instantly without restarting
+- Resource management
+- Input system with action mapping
+
+## Hot Reload
+
+Bevel includes a powerful hot reload system that lets you edit your game while it's running:
+
+```bash
+bevel run  # Hot reload enabled by default
+```
+
+Edit any `.py` or `.yaml` file in your `scenes/`, `scripts/`, or `prefabs/` directories and see changes immediately!
+
+For more details, see [Hot Reload Guide](docs/HOT_RELOAD.md).
+
+## Documentation
+
+See the `examples/` directory for sample projects.

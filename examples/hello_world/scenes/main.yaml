@@ -1,0 +1,37 @@
+scene_config:
+  name: "Hello World"
+  type: "2D"
+  background_color: [135, 206, 235, 255]  # Sky blue
+
+root:
+  type: Node2D
+  name: "Root"
+  position: [0, 0]
+  children:
+    # Player
+    - prefab: "prefabs/player.yaml"
+      position: [640, 300]
+
+    # Ground
+    - prefab: "prefabs/ground.yaml"
+      position: [640, 650]
+
+    # Left platform
+    - prefab: "prefabs/platform.yaml"
+      name: "PlatformLeft"
+      position: [300, 500]
+
+    # Right platform
+    - prefab: "prefabs/platform.yaml"
+      name: "PlatformRight"
+      position: [980, 500]
+
+    # Middle platform (higher, smaller)
+    - prefab: "prefabs/platform.yaml"
+      name: "PlatformMiddle"
+      position: [640, 400]
+      size: [150, 20]
+
+    # Camera
+    - prefab: "prefabs/camera.yaml"
+      position: [640, 360]

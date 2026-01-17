@@ -1,0 +1,13 @@
+player:
+  name: "Player"
+  type: CollisionShape2D
+  properties:
+    shape: "rectangle"
+    size: [32, 48]
+    physics:
+      body_type: "dynamic"
+      mass: 10.0
+      friction: 0.3
+      fixed_rotation: true
+  scripts:
+    - "scripts/player.py"

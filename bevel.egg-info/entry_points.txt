@@ -1,0 +1,2 @@
+[console_scripts]
+bevel = bevel.cli.main:cli

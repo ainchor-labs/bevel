@@ -1,0 +1,7 @@
+# Resource definitions for Hello World example
+# Note: This example uses colored rectangles instead of textures
+# to demonstrate physics without requiring asset files
+
+textures: {}
+sounds: {}
+fonts: {}

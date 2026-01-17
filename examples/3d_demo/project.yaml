@@ -1,0 +1,22 @@
+project_name: "3D Demo"
+version: "0.1.0"
+project_type: "3D"
+
+window:
+  width: 1280
+  height: 720
+  title: "Bevel 3D Demo"
+  resizable: true
+  vsync: true
+  fps: 60
+
+entry_scene: "scenes/main.yaml"
+
+physics_3d:
+  enabled: true
+  gravity: [0, -9.81, 0]
+
+development:
+  hot_reload:
+    enabled: true
+    watch_paths: ["scenes/", "scripts/"]

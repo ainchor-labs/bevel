@@ -1,0 +1,10 @@
+# Input actions for Hello World example
+actions:
+  move_left:
+    keys: [KEY_A, KEY_LEFT]
+  move_right:
+    keys: [KEY_D, KEY_RIGHT]
+  jump:
+    keys: [KEY_SPACE, KEY_W, KEY_UP]
+  reset:
+    keys: [KEY_R]

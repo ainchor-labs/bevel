@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/var/data/python/bin/bevel run:*)"
+    ]
+  }
+}

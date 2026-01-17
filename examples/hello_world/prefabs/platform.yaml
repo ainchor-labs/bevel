@@ -1,0 +1,11 @@
+platform:
+  name: "Platform"
+  type: CollisionShape2D
+  properties:
+    shape: "rectangle"
+    size: [200, 20]
+    physics:
+      body_type: "static"
+      friction: 0.5
+  scripts:
+    - "scripts/platform.py"

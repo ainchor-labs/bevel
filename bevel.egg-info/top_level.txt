@@ -1,0 +1,7 @@
+bevel
+bin
+docs
+examples
+scripts
+tests
+venv

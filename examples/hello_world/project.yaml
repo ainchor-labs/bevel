@@ -1,0 +1,22 @@
+project_name: "Hello World"
+version: "0.1.0"
+
+window:
+  width: 1280
+  height: 720
+  title: "Bevel - Hello World"
+  resizable: true
+  vsync: true
+  fps: 60
+
+entry_scene: "scenes/main.yaml"
+
+physics:
+  enabled: true
+  gravity: [0, 500]
+
+hot_reload:
+  watch_paths:
+    - "scenes"
+    - "scripts"
+    - "prefabs"

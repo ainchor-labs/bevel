@@ -30,21 +30,8 @@ bevel run
 - Python scripting with lifecycle methods
 - Box2D physics integration (2D) and Jolt physics (3D)
 - raylib rendering
-- **Hot reload** - Edit code and see changes instantly without restarting
 - Resource management
 - Input system with action mapping
-
-## Hot Reload
-
-Bevel includes a powerful hot reload system that lets you edit your game while it's running:
-
-```bash
-bevel run  # Hot reload enabled by default
-```
-
-Edit any `.py` or `.yaml` file in your `scenes/`, `scripts/`, or `prefabs/` directories and see changes immediately!
-
-For more details, see [Hot Reload Guide](docs/HOT_RELOAD.md).
 
 ## Documentation
 
